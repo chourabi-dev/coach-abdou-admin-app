@@ -1,0 +1,140 @@
+<ion-header>
+  
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My members</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content >
+  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="hasAGym">
+    <ion-fab-button color="secondary"  (click)="openCreateNewUserModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>-->
+
+
+  <ion-grid>
+
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+
+
+
+
+    <ion-row *ngIf="hasAGym">
+      <ion-col size="12">
+        <ion-searchbar  (ionChange)="searchFor($event)" (ionClear)="getMembersList('1')" placeholder="Chercher quelqu'un ?"></ion-searchbar>
+      </ion-col>
+      <ion-col>
+        <ion-item >
+          <ion-label>Payments plans</ion-label>
+          <ion-select (ionChange)="updateFiltreCategorie($event)" [value]="cat"  >
+            <ion-select-option value="all">All payments plans</ion-select-option>
+            <ion-select-option [value]="plan.id_plan" *ngFor="let plan of plans">{{plan.name_plan}} / {{plan.duration_days}} Days </ion-select-option>
+                        
+
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+
+      <ion-col>
+        <ion-item >
+          <ion-label>Show ( {{members.length}} )</ion-label>
+          <ion-select (ionChange)="updateFiltre($event)"  [value]="filtre" >
+            <ion-select-option value="1">All members</ion-select-option>
+            <ion-select-option value="2">Archived members</ion-select-option>
+            <ion-select-option value="3">Out of payment</ion-select-option>
+            
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+    </ion-row>
+
+
+    <ion-row *ngIf="hasAGym">
+      <ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <ion-list style="padding: 0;" *ngIf="isSearchingFor==true">
+              <ion-list-header>
+                Result of the research
+              </ion-list-header>
+              <ion-item  *ngFor="let member of membersSearch">
+                <ion-avatar slot="start">
+                  <img src="{{member.data.avatar}}">
+                </ion-avatar>
+                <ion-label>
+                  <h2><strong>{{member.data.fullname}}</strong></h2>
+                  <ion-text>Should pay before {{member.shouldpayat |date}}</ion-text>
+                  <br/>
+                  <ion-text color="danger" *ngIf="member.leftDays <= 0" >Left days {{member.leftDays}}</ion-text>
+                  <ion-text color="warning" *ngIf="member.leftDays > 0 && member.leftDays <=3" >Left days {{member.leftDays}}</ion-text>
+                  <ion-text color="success" *ngIf="member.leftDays > 3" >Left days {{member.leftDays}}</ion-text>
+
+                </ion-label>
+                <ion-button slot="end"  style="margin: 0;" (click)="openUserDetailsModal(member.data.id,member.data.fullname)"  > Details</ion-button>
+                
+              </ion-item>
+              <ion-item  *ngIf="membersSearch.length == 0">
+                <ion-label>
+                  <h3 style="text-align: center;">Cannot find members </h3>
+                </ion-label>
+              </ion-item>
+
+
+
+
+            </ion-list>
+            <ion-list style="padding: 0;" *ngIf="isSearchingFor==false">
+
+              <ion-item  *ngFor="let member of members">
+                <ion-avatar slot="start">
+                  <img src="{{member.data.avatar}}">
+                </ion-avatar>
+                <ion-label>
+                  <h2><strong>{{member.data.fullname}}</strong></h2>
+                  <ion-text>Should pay before {{member.shouldpayat |date}}</ion-text>
+                  <br/>
+                  <ion-text color="danger" *ngIf="member.leftDays <= 0" >Left days {{member.leftDays}}</ion-text>
+                  <ion-text color="warning" *ngIf="member.leftDays > 0 && member.leftDays <=3" >Left days {{member.leftDays}}</ion-text>
+                  <ion-text color="success" *ngIf="member.leftDays > 3" >Left days {{member.leftDays}}</ion-text>
+
+
+                </ion-label>
+                <ion-button slot="end"  style="margin: 0;" (click)="openUserDetailsModal(member.data.id,member.data.fullname)"  > Details</ion-button>
+                
+              </ion-item>
+              <ion-item  *ngIf="members.length == 0">
+                <ion-label>
+                  <h3 style="text-align: center;">Empty</h3>
+                </ion-label>
+              </ion-item>
+
+
+
+
+            </ion-list>
+
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar  color="secondary">
+    <ion-title>Manage payments plans</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button  fill="clear" (click)="closeModal()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"  >
+
+
+  <p>You can add as many plans as you want, note that each plan should have a duration, price, and a cool title.</p>
+
+  <form [formGroup]="newGymPlan"  >
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Title <ion-text color="danger" *ngIf="newGymPlan.value.name_plan =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="text" formControlName="name_plan"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Duration ( days ) <ion-text color="danger" *ngIf="newGymPlan.value.duration =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="number" formControlName="duration"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Price <ion-text color="danger" *ngIf="newGymPlan.value.price =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="number" formControlName="price"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="secondary" size="small" [disabled]="! newGymPlan.valid" (click)="addNewPlan()">ADD NOW</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <p>To delete a plan, drag it to the left.</p>
+  <ion-list>
+    <ion-list-header>
+      <strong>Existing plans</strong>
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let plan of plans">
+      <ion-item>
+        <strong>{{plan.name_plan}} / {{plan.amount | currency}} / {{plan.duration_days}} Days</strong>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(plan.id_plan)"> DELETE </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  
+
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,275 @@
+<ion-header>
+  <ion-toolbar color="secondary" >
+    <ion-title>{{fullname}}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"  >
+ 
+  <ion-grid *ngIf="! isLoading">
+    <form style="display: none;">
+      <input type="file" accept="image/*" (change)="imageChanged($event)" id="inputImage" />
+    </form>
+    <ion-row>
+      <ion-item >
+        <ion-avatar class="avatar-img" slot="start" style="width: 130px;height:130px;position:relative">
+          <img src="{{avatar}}">
+          <ion-icon name="camera" class="updatepictureIcon" (click)="iconClick()"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <ion-row>
+            <ion-col>
+              <h1 color="danger"><strong>{{fullname}}</strong></h1>
+              <p>{{email}}</p>
+              <p>{{phone}}</p>
+              <p>{{sex}}</p>
+              <p>{{address}}</p>
+              
+              
+              <p>Member since {{RegistrationDate | date}} </p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col *ngIf="status ==2 || status == 1">
+              <ion-button expand="block" color="warning" (click)="renewelMembre($event)">Renew subscription</ion-button>
+            </ion-col>
+            <ion-col *ngIf="isArchived==0">
+              <ion-button expand="block" (click)="archiveMembre()" >Archive</ion-button>
+            </ion-col>
+            <ion-col *ngIf="isArchived==1" (click)="unArchiveMembre()">
+              <ion-button expand="block" >Remove from archivee</ion-button>
+            </ion-col>
+            <ion-col *ngIf="! EditIsShown"  (click)="toggleEdit()">
+              <ion-button expand="block" >Edit</ion-button>
+            </ion-col>
+            <ion-col (click)="moreInfoModal()">
+              <ion-button expand="block"  >More info</ion-button>
+            </ion-col>
+            <ion-col (click)="progressCheckModal()">
+              <ion-button expand="block"  >Progress check</ion-button>
+            </ion-col>
+            <ion-col (click)="deleteMembre()">
+              <ion-button expand="block"  color="danger" >Delete</ion-button>
+            </ion-col>
+
+
+            
+          </ion-row>
+        </ion-label>
+      </ion-item>
+
+
+
+      
+    </ion-row>
+    <ion-row *ngIf="EditIsShown">
+      <form [formGroup]="editMembreData" style="width: 100%;">
+          <ion-row>
+            <ion-col>
+              <ion-item   >
+                <ion-label position="floating">Fullname <ion-text color="danger" *ngIf="editMembreData.value.name =='' ">*</ion-text> </ion-label>
+                <ion-input style="width: 100%;" type="text" formControlName="name"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item   >
+                <ion-label position="floating">Phone number <ion-text color="danger" *ngIf="editMembreData.value.phone =='' ">*</ion-text> </ion-label>
+                <ion-input style="width: 100%;" type="number" formControlName="phone"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item   >
+                <ion-label position="floating">Date of last renewal<ion-text color="danger" *ngIf="editMembreData.value.addDate =='' ">*</ion-text> </ion-label>
+                <ion-input  style="width: 100%;" type="date" formControlName="addDate" ></ion-input>
+                
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          
+          <ion-row>
+            <ion-col>
+              <ion-item  >
+                <ion-label>Training plan </ion-label>
+                <ion-select placeholder="Choisissez un plan d'entraînement" formControlName="workoutplan"  interface="action-sheet" >
+                  <ion-select-option  value="">No training plan</ion-select-option>
+               
+                  <ion-select-option *ngFor="let plan of savedPlans" value="{{plan.id_workout}}">{{plan.json_boc.title}} </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item  >
+                <ion-label>Diet plan </ion-label>
+                <ion-select placeholder="Choisissez un plan d'entraînement" formControlName="dietPlan"  interface="action-sheet" >
+                  <ion-select-option  value="">No Diet plan</ion-select-option>
+               
+                  <ion-select-option *ngFor="let d of diets" value="{{d.id_diet}}">{{d.data.info.title}} </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          
+
+          <ion-row>
+            <ion-col>
+              <ion-item  >
+                <ion-label>Payment plan </ion-label>
+                <ion-select placeholder="Choisissez un plan pour ce membre" formControlName="idPlan"  interface="action-sheet" >
+                  <ion-select-option *ngFor="let plan of plans" value="{{plan.id_plan}}">{{plan.name_plan}} / {{plan.amount}} TND / {{plan.duration_days}} Days </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item  >
+                <ion-label>Sexe</ion-label>
+                <ion-select placeholder="choisir le sexe" formControlName="sex" interface="action-sheet" >
+                  <ion-select-option  value="Homme">MALE</ion-select-option>
+                  <ion-select-option  value="Femme">FEMALE</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+
+          
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-button [disabled]="! editMembreData.valid" size="small" (click)="updateUserData()">UPDATE</ion-button> <ion-button size="small" color="secondary" (click)="toggleEdit()">CANCEL</ion-button>
+            </ion-col>
+          </ion-row>
+      </form>
+
+
+      
+    </ion-row>
+    <!--<ion-row>
+      <ion-col>
+        <ion-button fill="clear" color="dark" expand="block" (click)="callMemberPhone()">
+          <ion-icon slot="start" name="call-outline" ></ion-icon>
+          Call 
+        </ion-button>
+      </ion-col>
+      <ion-col *ngIf="email !=''">
+        <ion-button fill="clear" color="dark" expand="block" (click)="sendEmailToMember()">
+          <ion-icon slot="start"  name="mail-outline"></ion-icon>
+          email 
+        </ion-button>
+      </ion-col>
+      <ion-col >
+        <ion-button fill="clear" color="dark" expand="block" (click)="getAppCode()">
+          <ion-icon slot="start"  name="key-outline"></ion-icon>
+          App code
+        </ion-button>
+      </ion-col>
+    </ion-row>-->
+    <hr>
+    <ion-row *ngIf="isUsingApp">
+      <!--<ion-col col="6">
+        <ion-button fill="clear" color="dark" expand="block" (click)="sendMessage()">
+          <ion-icon name="send-outline"></ion-icon>
+           Message 
+        </ion-button>
+      </ion-col >
+      <ion-col col="6">
+        <ion-button fill="clear" color="dark" expand="block" (click)="sendMessage()">
+          <ion-icon name="information-outline" slot="start"></ion-icon>
+           MORE DATA 
+        </ion-button>
+      </ion-col >
+
+      <ion-col col="6">
+        <ion-button fill="clear" color="secondary" expand="block" (click)="resetMemberPaswword()">
+          <ion-icon name="refresh-outline"></ion-icon>
+           reset password
+        </ion-button>
+      </ion-col>-->
+      
+
+    </ion-row>
+    <hr>
+
+
+    <ion-row>
+      <ion-col>
+        <table class="" style="width: 100%;">
+          <tbody>
+            
+            <tr *ngIf="workoutplan != null">
+              <td width="40%"><strong>Training plan</strong></td>
+              <td> {{ getPlanTitle() }} 
+                <br/> 
+                
+                <ion-button color="secondary" (click)="editWorkoutDetails()" >edit</ion-button> </td>
+            </tr>
+            <tr *ngIf="diet != null">
+              <td width="40%"><strong>Diet plan</strong></td>
+              <td> {{ getDietTitle() }} 
+                <br/> 
+                
+                <ion-button color="secondary" (click)="editDietDetails()" >edit</ion-button> </td>
+            </tr>
+
+            
+            <tr>
+              <td width="40%"><strong>Payment plan</strong></td>
+              <td> {{pricingPlan.name}} </td>
+            </tr>
+            <tr>
+              <td><strong>Price</strong></td>
+              <td> {{pricingPlan.amount | currency }} </td>
+            </tr>
+            <tr>
+              <td><strong>Plan duration</strong></td>
+              <td> {{pricingPlan.duration}} Days </td>
+            </tr>
+
+            <tr>
+              <td><strong>Left days</strong></td>
+              <td> 
+                <ion-text *ngIf="status==3" color="success">{{daysLeft}} Days</ion-text>
+                <ion-text *ngIf="status==2" color="warning">{{daysLeft}} Days</ion-text>
+                <ion-text *ngIf="status==1" color="danger">{{daysLeft}} Days</ion-text>
+               </td>
+            </tr>
+            <tr>
+              <td><strong>Last renewal date</strong></td>
+              <td> {{lastRenewalDate | date}}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </ion-col>
+    </ion-row>
+ 
+    <ion-row>
+      <ion-col size="12" >
+        <ion-list style="padding: 0;">
+            <ion-item   *ngFor="let history of historyOfPayments">
+              <ion-avatar slot="start">
+                <img [src]="avatar">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{history.title}} | {{history.amount | currency }}</h2>
+                <h3 style="white-space: break-spaces !important;">{{history.description}}</h3>
+                <p>{{history.date | date:'medium'}}</p>
+                
+              </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Complaints</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content >
+
+
+  <ion-grid>
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+
+    
+    <ion-row *ngIf="hasAGym">
+      <div style="width: 100%;">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Complaints</ion-card-title>
+            <ion-card-subtitle color="danger" *ngIf="newTickets.length != 0">You have({{newTickets.length}}) new Complaint(s)</ion-card-subtitle>
+            
+          </ion-card-header>
+          <ion-card-content>
+            these are the comments coming directly from your client(s)
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+    </ion-row>
+
+
+    <ion-row *ngIf="hasAGym">
+
+      <div style="width: 100%;">
+        <ion-list *ngIf="newTickets.length != 0">
+          <ion-list-header>
+            new complaint(s)
+          </ion-list-header>
+  
+          <ion-item *ngFor="let ticket of newTickets">
+            <ion-avatar slot="start">
+              <img src="{{ticket.avatar_member}}">
+            </ion-avatar>
+            <ion-label>
+              <h2><strong>{{ticket.title_reclamation}}</strong></h2>
+              <h3>{{ticket.fullname_member}}</h3>
+              <p>{{ ticket.date_reclamation | date:'medium' }}</p>
+              <p style="white-space: break-spaces;">
+                <strong>
+                  {{ticket.core_reclamation}}
+                </strong>
+              </p>
+            </ion-label>
+          </ion-item>
+        
+        
+        </ion-list>
+      </div>
+
+      <div style="width: 100%;">
+        <ion-list *ngIf="oldTickets.length != 0">
+          <ion-list-header>
+            Old complaint(s)
+          </ion-list-header>
+  
+          <ion-item *ngFor="let ticket of oldTickets">
+            <ion-avatar slot="start">
+              <img src="{{ticket.avatar_member}}">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ticket.title_reclamation}}</h2>
+              <h3>{{ticket.fullname_member}}</h3>
+              <p>{{ ticket.date_reclamation | date:'medium' }}</p>
+              <p style="white-space: break-spaces;">
+                
+                  {{ticket.core_reclamation}}
+                
+              </p>
+            </ion-label>
+          </ion-item>
+        
+        
+        
+        </ion-list>
+      </div>
+      
+    </ion-row>
+
+
+
+  </ion-grid>
+
+</ion-content>

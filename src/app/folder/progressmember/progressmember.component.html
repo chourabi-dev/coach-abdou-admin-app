@@ -1,0 +1,36 @@
+
+
+<ion-header>
+  <ion-toolbar color="secondary" >
+    <ion-title>Training progress</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        CLOSE
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding"  >
+
+  <ion-list>
+    <div class="p" *ngFor="let p of progress">
+      <h5>Week {{p.week_number}} | {{p.add_date | date}}</h5>
+      <p>Weight : <strong> {{p.weight}}  </strong> kg / waist: <strong> {{p.waist_size}} </strong> cm </p>
+      <div class="images" style="width: 100%;">
+        <img [src]="p.front_body_image" width="25%" style="margin-right: 8% ;" >
+        <img [src]="p.side_body_image" width="25%" style="margin-right: 8% ;" >
+        <img [src]="p.back_body_image" width="25%" style="margin-right: 8% ;" >
+        
+      </div>
+
+      <h6>Feedback</h6>
+      <p>
+        {{p.feedback}}
+      </p>
+    </div>
+  </ion-list>
+  
+
+</ion-content>
+

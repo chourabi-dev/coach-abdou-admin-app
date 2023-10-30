@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="secondary" >
+    <ion-title>Détails machine</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        Fermer
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"  >
+ 
+  <ion-grid *ngIf="! isLoading">
+    <ion-row>
+      <ion-col>
+        <ion-card-subtitle>Machine</ion-card-subtitle>
+        <ion-card-title>{{machine.label}}</ion-card-title>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-note *ngIf="machine.stat==1" color="danger" ><p >Dernière date d'entretien : {{ machine.last_maintain_date | date }}</p></ion-note> 
+        <ion-note *ngIf="machine.stat==0" color="success" ><p >Dernière date d'entretien : {{ machine.last_maintain_date | date }}</p></ion-note> 
+
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col *ngIf="! operationFormIsShown">
+        <ion-button  expand="block" fill="outline" (click)="toggleOperationForm()">nouvelle opération</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="danger" expand="block" (click)="deleteMachine()">supprimer </ion-button>
+      </ion-col>
+      
+    </ion-row>
+
+    <ion-row *ngIf=" operationFormIsShown">
+
+      <form [formGroup]="newOperationForm" style="    width: 100%;">
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Titre de l'opération <ion-text color="danger" *ngIf="newOperationForm.value.title =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="text" formControlName="title"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Date de l'opération <ion-text color="danger" *ngIf="newOperationForm.value.date =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="date" formControlName="date"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Description d'opération<ion-text color="danger" *ngIf="newOperationForm.value.description =='' ">*</ion-text> </ion-label>
+              <ion-textarea style="width: 100%;" formControlName="description" ></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Montant TND ( Facultatif )</ion-label>
+              <ion-input  type="number" formControlName="amount"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-button [disabled]="! newOperationForm.valid"  expand="full" (click)="addNewOperationOnMachine()">ajouter l'opération</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button  expand="full" (click)="toggleOperationForm()" color="secondary">Annuler</ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-row>
+
+
+
+
+    <ion-note>Historique des entretiens</ion-note>
+    <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-col size="12" >
+            <ion-list style="padding: 0;">
+                <ion-item   *ngFor="let history of machine.histroy">
+                  <ion-label>
+                    <h2>{{history.title_action}}</h2>
+                    <h3 style="white-space: break-spaces !important;">{{history.description_history}}</h3>
+                    <p>{{history.date_history | date:'medium'}}</p>
+                    
+                  </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    
+  </ion-grid>
+
+</ion-content>

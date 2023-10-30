@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Paramètres</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading"  color="warning"></ion-progress-bar>
+<ion-content  >
+  <ion-grid>
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+
+
+    <ion-row *ngIf="hasAGym">
+      <ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <h1> {{gymName}} </h1>
+            <ion-note> créé le {{ creationDate | date }} </ion-note><br/>
+            <!--<ion-note>{{gymEmail}}</ion-note>-->
+
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <ion-list>
+              <ion-list-header>
+                <strong>Settings</strong>
+              </ion-list-header>
+
+              <ion-item (click)="managePlannigs()">
+                <ion-label>Manage payments plans</ion-label>
+                <ion-icon color="secondary" slot="start" name="alarm-outline" ></ion-icon>
+              </ion-item>
+              
+              <ion-item routerLink="/home/workoutcreator">
+                <ion-label>Manage workout plans</ion-label>
+                <ion-icon color="secondary" slot="start" name="body-outline" ></ion-icon>
+              </ion-item>
+              
+              <ion-item routerLink="/home/exercicecreator">
+                <ion-label>Manage exercices</ion-label>
+                <ion-icon color="secondary" slot="start" name="barbell-outline"></ion-icon>
+              </ion-item>
+
+              <ion-item routerLink="/home/diets">
+                <ion-label>Manage diets plans</ion-label>
+                <ion-icon color="secondary" slot="start" name="fast-food-outline"></ion-icon>
+              </ion-item>
+              
+              
+
+
+              
+              
+
+
+            </ion-list>
+
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    
+
+  </ion-grid>
+  
+</ion-content>

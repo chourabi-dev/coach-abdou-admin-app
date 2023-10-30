@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="secondary" >
+    <ion-title>paramètres des équipements</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        Fermer
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"  >
+ 
+  <ion-grid *ngIf="! isLoading">
+    <ion-row>
+      <ion-col>
+        Afin d'obtenir une expérience utilisateur parfaite dans l'application "Gymmy", veuillez nous indiquer la fréquence d'entretien de vos machines de gym ( en jours ).
+        <br/>
+        <span class="text-muted">La valeur par défaut est définie sur 7 jours</span>
+      </ion-col>
+    </ion-row>
+      <form [formGroup]="updateGymdata" style="    width: 100%;">
+        
+            <ion-item   >
+              <ion-label position="floating">Chaque ( {{updateGymdata.value.duration}} jours )<ion-text color="danger" *ngIf="updateGymdata.value.duration =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="number" formControlName="duration"></ion-input>
+            </ion-item>
+        
+        <ion-row>
+          <ion-col>
+            <ion-button [disabled]="! updateGymdata.valid"  expand="full" (click)="updateMachineCheckDuration()">Mettre à jour</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button  expand="full" (click)="closeModal()" color="secondary">Annuler</ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    
+  </ion-grid>
+
+</ion-content>

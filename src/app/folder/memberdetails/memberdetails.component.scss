@@ -1,0 +1,40 @@
+td{
+    padding: 10px;
+}
+
+
+.avatar-img:hover{
+    .updatepictureIcon{
+        display: block;
+    }
+}
+
+
+
+
+.updatepictureIcon{
+    transition: all ease-in-out 1.5s;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 34px;
+    background-color: #ffffff85;
+    border-radius: 50%;
+    padding: 48px;
+    color: #ffffff;
+    display: none;
+    cursor: pointer;
+}
+
+.red-alert{
+    color: #EF5350 !important;
+    font-weight: 600 !important;
+}
+
+.restebloc{
+    padding: 10px;
+    background-color: #EF5350;
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+}

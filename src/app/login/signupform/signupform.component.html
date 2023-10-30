@@ -1,0 +1,50 @@
+<div class="preauth">
+  <ion-card class="log-form">
+    <form [formGroup]="createAdminForm" >
+      <ion-list lines="none">
+        <ion-item>
+          <h1>Créer un nouveau compte</h1>
+        </ion-item>
+        <ion-item>
+          <p>créer un nouveau compte GYMMY</p>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" >Nom & prénom <span *ngIf=" createAdminForm.value.fullname == '' " color="danger"><ion-text color="danger"><sub>*</sub></ion-text></span> </ion-label>
+          <ion-input type="text" formControlName="fullname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" >Numéro de téléphone <span *ngIf=" createAdminForm.value.phone == '' " color="danger"><ion-text color="danger"><sub>*</sub></ion-text></span> </ion-label>
+          <ion-input type="text" formControlName="phone"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" >Email <span *ngIf=" createAdminForm.value.email == '' " color="danger"><ion-text color="danger"><sub>*</sub></ion-text></span> </ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" >Mot de passe <span *ngIf=" createAdminForm.value.password == '' " color="danger"><ion-text color="danger"><sub>*</sub></ion-text></span></ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <p>En cliquant sur créer un compte, vous acceptez nos <a href="http://www.gymmy.space/API/terms.php">conditions générales</a>. Vous pouvez recevoir des notifications par SMS de notre part et vous désinscrire à tout moment.</p>
+        </ion-item>
+        
+        <div class="ion-padding">
+            <ion-button expand="block" [disabled]=" ! createAdminForm.valid " (click)="createUser($event)" >créer un compte </ion-button>
+          </div>
+        <ion-item>
+
+          <ion-note><a routerLink="/auth/login" >revenir pour vous connecter</a></ion-note>
+          
+
+        </ion-item>
+        <ion-item style="text-align: center;">
+          <div>
+            <a class="text-muted" href="https://linkedin.com/in/taher-chourabi-270749140">Developer | Chourabi taher </a>
+        </div>
+       </ion-item>
+      </ion-list>
+    </form>
+  
+  </ion-card>
+  
+</div>

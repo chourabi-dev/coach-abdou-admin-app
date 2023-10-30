@@ -1,0 +1,39 @@
+<div class="preauth">
+  <ion-card class="log-form">
+    <form [formGroup]="loginForm" (ngSubmit)="connectAdmin($event)">
+      <ion-list lines="none">
+        <ion-item>
+          <h1>Coach Abdou Web Manager</h1>
+        </ion-item>
+        <ion-item>
+          <h3>Authentification</h3>
+        </ion-item>
+        
+
+        <ion-item>
+          <ion-label position="floating" >Email</ion-label>
+          <ion-input formControlName="login" type="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input formControlName="password"  type="password"></ion-input>
+        </ion-item>
+
+        <div class="ion-padding">
+          <ion-button expand="block" [disabled]="! loginForm.valid" (click)="connectAdmin($event)">se connecter </ion-button>
+        </div>
+        
+        <ion-item style="text-align: center;">
+          
+            <div style="width: 100% ;text-align: center;">
+              <a class="text-muted" href="https://linkedin.com/in/taher-chourabi-270749140">Developer | Chourabi taher </a>
+          </div>
+       </ion-item>
+               
+  
+      </ion-list>
+    </form>
+  
+  </ion-card>
+  
+</div>

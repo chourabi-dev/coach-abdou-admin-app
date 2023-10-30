@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734738060494",
+    "project_id": "coachabdouadmin",
+    "storage_bucket": "coachabdouadmin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734738060494:android:ced5d59cdf5f3cbd5eec9f",
+        "android_client_info": {
+          "package_name": "com.coachabdou.coach_abdou_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734738060494-7b2edtibs0c2t87va1k3smqpnd5vaur3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMFIzUltHsfAMIeJmnpoci5DiV60dM8ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734738060494-7b2edtibs0c2t87va1k3smqpnd5vaur3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

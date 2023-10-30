@@ -1,0 +1,23 @@
+.plan{
+    width: 194px;
+    background-color: #36529f;
+    color: white;
+    padding: 10px;
+    border-radius: 7px;
+    display: inline-block;
+    margin-right: 15px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.plan > p {
+    white-space: initial;
+}
+.plans{
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /* height: 143px; */
+    white-space: nowrap;
+
+}

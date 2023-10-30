@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar  color="secondary">
+    <ion-title>New member</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button  fill="clear" (click)="closeModal()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"   >
+  <div *ngIf="! isLoading">
+    <form [formGroup]="newMemberForm" *ngIf="form==1" >
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Fullname <ion-text color="danger" *ngIf="newMemberForm.value.name =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="text" formControlName="name"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Email ( Optional ) </ion-label>
+              <ion-input style="width: 100%;" type="text" formControlName="email"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Phone number <ion-text color="danger" *ngIf="newMemberForm.value.phone =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="tel" formControlName="phone"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Add date<ion-text color="danger" *ngIf="newMemberForm.value.addDate =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="date" formControlName="addDate"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item  >
+              <ion-label>Payment plan</ion-label>
+              <ion-select style="width: 100%;" placeholder="Choisissez un plan pour ce membre" formControlName="idPlan" interface="action-sheet" >
+                <ion-select-option *ngFor="let plan of plans" value="{{plan.id_plan}}">{{plan.name_plan}} / {{plan.amount | currency}}  / {{plan.duration_days}} day(s) </ion-select-option>
+              </ion-select>
+              
+            </ion-item>
+            <ion-item>
+              <p><ion-note>You can always add new subscription plans by accessing the <a routerLink="/home/settings">settings</a></ion-note></p>
+              
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item  >
+              <ion-label>Sexe</ion-label>
+              <ion-select placeholder="choisir le sexe" formControlName="sex" interface="action-sheet" >
+                <ion-select-option  value="Homme">Man</ion-select-option>
+                <ion-select-option  value="Femme">Women</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        
+        
+
+        <ion-row>
+          <ion-col>
+            <ion-button color="secondary" size="small" [disabled]="! newMemberForm.valid" (click)="createNewMembre()">CREATE NOW</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+
+    <form *ngIf="form==2">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item  >
+              <ion-avatar slot="start" style="width: 130px;height:130px">
+                <img [src]="avatar">
+              </ion-avatar>
+            </ion-item>
+           
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-text color="success">
+              Member successfully added, please add photo for him
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <input type="file" accept="image/*" (change)="imageChanged($event)" />
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+           <ion-button *ngIf="FileTodUpload != null" (click)="uploadFile()">UPDATE NOW</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+
+  </div>
+
+
+</ion-content>

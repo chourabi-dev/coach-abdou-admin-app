@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Workouts Exercices creator</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content >
+
+
+
+  <ion-grid>
+    
+    
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+    
+
+
+
+    <ion-row *ngIf="hasAGym">
+
+      <ion-col size="12" >
+        <ion-card >
+          <ion-card-content>
+            <p>
+              Welcome to your exercice Creator, start creating your exercices now.
+            </p>
+
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>My exercices</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="plans">
+              <div class="plan" *ngFor="let p of exercices" (click)="editExercice(p)">
+                <h3> <strong> {{p.title_exercice}} </strong> </h3>
+                
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+
+
+        <!--step 1-->
+        <ion-card >
+          <ion-card-header>
+            <ion-card-title>Create a new exercice</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="newex" (ngSubmit)="createEx()" >
+
+
+
+
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating">Title</ion-label>
+                  <ion-input formControlName="title"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Please provide useful information about this exercice plan, this data will be visible for your clients</ion-label>
+                  <ion-textarea rows="5" formControlName="instructions"></ion-textarea>
+                </ion-item>
+
+                
+                <ion-item>
+                  <ion-label position="floating" >Body section</ion-label>
+                  <ion-input type="text" formControlName="bodysection"></ion-input>
+                </ion-item>
+
+                
+              
+              <ion-item>
+                <ion-label position="floating" >Sets</ion-label>
+                <ion-input type="number" formControlName="sets"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating" >Reps</ion-label>
+                <ion-input type="number" formControlName="reps"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating" >Pause</ion-label>
+                <ion-input type="number" formControlName="pause"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating" >Video link</ion-label>
+                <ion-input type="url" formControlName="videolink"></ion-input>
+              </ion-item>
+              
+              
+              
+            </ion-list>
+            <div>
+              <ion-button color="primary" [disabled]="! newex.valid" type="submit">CREATE</ion-button>
+            </div>
+
+            </form>
+          </ion-card-content>
+        </ion-card>
+        <!--end of step 1-->
+
+
+
+       
+        
+
+
+      </ion-col>
+      
+    </ion-row>
+
+
+
+  </ion-grid>
+
+</ion-content>

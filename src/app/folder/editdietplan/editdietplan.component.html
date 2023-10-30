@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar color="secondary" >
+    <ion-title>Diet details</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content >
+
+
+
+  <ion-grid>
+    
+    
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+    
+
+
+
+    <ion-row *ngIf="hasAGym">
+
+      <ion-col size="12" >
+
+
+
+
+        
+        <!--step 1-->
+        <ion-card *ngIf="step == 1" >
+          <ion-card-header>
+            <ion-card-title>Update diet details</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="step1Form" (ngSubmit)="nexStep()" >
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating">Title</ion-label>
+                  <ion-input formControlName="title"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Note (Optional)</ion-label>
+                  <ion-textarea rows="7" formControlName="note" ></ion-textarea>
+                </ion-item>
+
+
+                
+            </ion-list>
+            <div>
+              <ion-button color="primary" [disabled]="! step1Form.valid" type="submit">NEXT</ion-button>
+            </div>
+
+            </form>
+          </ion-card-content>
+        </ion-card>
+        <!--end of step 1-->
+
+
+
+        <!--step 2-->
+          <div *ngIf="step == 2">
+            
+            <ion-card *ngIf="meals.length != 0">
+              <ion-card-header>
+                <ion-card-title>Meals </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div *ngFor="let m of meals;let i = index;" style="border-bottom: 1px solid black; padding-top: 25px;padding-bottom: 25px;">
+                  <h6> <strong> Meal N° {{i}} </strong> 
+                    <ion-icon name="trash-outline" color="danger" style="cursor: pointer;font-size: 25px;" (click)="deleteMeal(i)"></ion-icon> 
+                    <ion-icon name="create-outline" color="primary" style="cursor: pointer;font-size: 25px;" (click)="editMeal(i)"></ion-icon>
+                  </h6>
+                  <p>{{m.description}}</p>
+                </div>
+
+                <ion-button color="primary"  (click)="confirm()" [disabled]="meals.length == 0">CONFIRM</ion-button>
+      
+              </ion-card-content>
+            </ion-card>
+    
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>Add meals </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div >
+                  <form [formGroup]="step2Form" (ngSubmit)="nexStep()" >
+
+                    <ion-item>
+                      <ion-label position="floating">Description</ion-label>
+                      <ion-textarea rows="7" formControlName="mealDescription" ></ion-textarea>
+                    </ion-item>
+
+                  </form>
+
+
+                  <ion-button color="primary"  (click)="addMeal()" [disabled]=" ! step2Form.valid ">ADD MEAL</ion-button>
+      
+                  
+                </div>      
+                
+              </ion-card-content>
+            </ion-card>
+          </div>
+        <!--end of step 2-->
+
+
+
+        
+        
+
+
+      </ion-col>
+      
+    </ion-row>
+
+
+
+  </ion-grid>
+
+</ion-content>

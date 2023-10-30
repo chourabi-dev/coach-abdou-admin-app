@@ -1,0 +1,193 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Finance</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading"  color="warning"></ion-progress-bar>
+<ion-content   >
+
+  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="hasAGym">
+    <ion-fab-button color="warning"  (click)="newMoneyTransaction()">
+      <ion-icon name="cash"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>-->
+
+
+  <ion-grid *ngIf="! isLoading">
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+
+
+    <ion-row *ngIf="hasAGym">
+      <ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <ion-text>balance</ion-text>
+            <h1> {{ balance | currency }}  </h1>
+            <ion-row>
+              <ion-col>
+                <div class="centred-content">
+                  <ion-text ><ion-icon color="success" name="arrow-back-outline"></ion-icon> Total income</ion-text>
+                  <h3> {{ totalIncome | currency:' TND ' }}  </h3>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="centred-content">
+                  <ion-text ><ion-icon color="danger" name="arrow-forward-outline"></ion-icon> Total spendings</ion-text>
+                  <h3> {{ totalSpent | currency }}  </h3>
+                </div>
+              </ion-col>
+            </ion-row>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <div class="chart-wrapper">
+          <canvas
+              style="height:388px !important"
+              baseChart 
+              [datasets]="lineChartData" 
+              [labels]="lineChartLabels" 
+              [options]="lineChartOptions"
+              [colors]="lineChartColors" 
+              [legend]="lineChartLegend" 
+              [chartType]="lineChartType" 
+              [plugins]="lineChartPlugins">
+          </canvas>
+      </div>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <ion-text>This month income</ion-text>
+            <h1> <ion-text [color]=" thisMonthIncome - thisMonthSpending < 0 ? 'danger' : 'success' " >{{ ( thisMonthIncome - thisMonthSpending) | currency }} </ion-text> </h1>
+            <ion-row>
+              <ion-col>
+                <div class="centred-content">
+                  <ion-text ><ion-icon color="success" name="arrow-back-outline"></ion-icon> Total income</ion-text>
+                  <h3> {{ thisMonthIncome | currency }}  </h3>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="centred-content">
+                  <ion-text ><ion-icon color="danger" name="arrow-forward-outline"></ion-icon> Total spendings</ion-text>
+                  <h3> {{ thisMonthSpending | currency }}  </h3>
+                </div>
+              </ion-col>
+            </ion-row>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <div class="chart-wrapper">
+          <canvas baseChart 
+              [datasets]="thisMonthlineChartData" 
+              [labels]="thisMonthlineChartLabels" 
+              [options]="thisMonthlineChartOptions"
+              [colors]="thisMonthlineChartColors" 
+              [legend]="thisMonthlineChartLegend" 
+              [chartType]="thisMonthlineChartType" 
+              [plugins]="thisMonthlineChartPlugins">
+          </canvas>
+      </div>
+      </ion-col>
+
+
+
+      <ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <ion-text>Member payments for this month ( <strong>click to edit</strong> )</ion-text>
+            <div class="table-responsive">
+              
+              
+              <table  id="customers" class="table paymentsTable">
+                <thead>
+                  <tr>
+                    <th>Tag</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Amount </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr (click)="editPaymentData(payment)" *ngFor="let payment of thisMonthPayments">
+                    <td>{{payment.title}}</td>
+                    <td>{{payment.description}} </td>
+                    <td>{{payment.date | date}} </td>
+                    <td><ion-text color="success" >{{payment.amount| currency }} </ion-text> </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Tag</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Amount </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+
+      <!--<ion-col size="12">
+        <ion-card >
+          <ion-card-content>
+            <ion-text>Toutes les transactions ( <strong>Cliquez pour supprimer</strong> )</ion-text>
+            <div class=" table-responsive " >
+              <table id="customers" class="table table-transaction">
+                <thead>
+
+                  <tr>
+                    <th>Étiquette</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Montant (TND) </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr (click)="deleteTransaction(trans)" *ngFor="let trans of otherTransaction">
+                    <td>{{trans.title_transaction}}</td>
+                    <td>{{trans.description_transaction}} </td>
+                    <td>{{trans.date_transaction | date}} </td>
+                    <td><ion-text [color]=" trans.amount > 0 ? 'success' : 'danger' " >{{trans.amount| currency:' TND ' }} </ion-text></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+              </table>
+            </div>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>-->
+
+
+
+
+    </ion-row>
+
+    
+
+  </ion-grid>
+  
+</ion-content>

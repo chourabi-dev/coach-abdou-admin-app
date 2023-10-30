@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="secondary" >
+    <ion-title>Nouvelle transaction</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        Fermer
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"  >
+ 
+  <ion-grid *ngIf="! isLoading">
+    <ion-row>
+      <ion-col>
+      </ion-col>
+    </ion-row>
+      <form [formGroup]="newMoneyOperationForm" style="    width: 100%;">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Type d'opération</ion-label>
+              <ion-select placeholder="Type d'opération" formControlName="type" interface="popover">
+                <ion-select-option value="0">Retrait d'argent</ion-select-option>
+                <ion-select-option value="1">Ajout d'argent</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Titre<ion-text color="danger" *ngIf="newMoneyOperationForm.value.title =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="text" formControlName="title"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Montant ( TND )<ion-text color="danger" *ngIf="newMoneyOperationForm.value.amount =='' ">*</ion-text> </ion-label>
+              <ion-input style="width: 100%;" type="number" formControlName="amount"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item   >
+              <ion-label position="floating">Description d'opération<ion-text color="danger" *ngIf="newMoneyOperationForm.value.description =='' ">*</ion-text> </ion-label>
+              <ion-textarea style="width: 100%;" formControlName="description" ></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button [disabled]="! newMoneyOperationForm.valid"  expand="full" (click)="submitMoneyTransaction()">ajouter</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button  expand="full" (click)="closeModal()" color="secondary">Annuler</ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    
+  </ion-grid>
+
+</ion-content>

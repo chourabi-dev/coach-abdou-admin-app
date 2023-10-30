@@ -1,0 +1,10 @@
+{
+  "name": "gympro",
+  "integrations": {
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
+  },
+  "type": "angular"
+}

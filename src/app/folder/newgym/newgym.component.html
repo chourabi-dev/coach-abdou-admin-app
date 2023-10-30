@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar  color="secondary">
+    <ion-title>Nouveau gym</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button  fill="clear" (click)="closeModal()">
+        Fermer
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content class="ion-padding"  >
+  <form [formGroup]="newGymForm" >
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Nom <ion-text color="danger" *ngIf="newGymForm.value.name =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="text" formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Email <ion-text color="danger" *ngIf="newGymForm.value.email =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="text" formControlName="email"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Tarification du plan standard ( TND ) <ion-text color="danger" *ngIf="newGymForm.value.email =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="number" formControlName="pricing"></ion-input>
+            <ion-note>Vous pouvez toujours ajouter d'autres plans tarifaires dans la section "paramètres"</ion-note>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item   >
+            <ion-label position="floating">Factures mensuel ( TND ) <ion-text color="danger" *ngIf="newGymForm.value.email =='' ">*</ion-text> </ion-label>
+            <ion-input style="width: 100%;" type="number" formControlName="bills"></ion-input>
+            <ion-note>cela pourrait être l'électricité de l'eau et d'autres ...</ion-note>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="secondary" size="small" [disabled]="! newGymForm.valid" (click)="createNewGym()">CRÉER MAINTENANT</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

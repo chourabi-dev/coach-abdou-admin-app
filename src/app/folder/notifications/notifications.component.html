@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content >
+
+
+
+  <ion-grid>
+    
+    
+    <ion-row>
+      <div class="error" *ngIf="errorLoading">
+        <ion-text>
+          Something went wrong, please try to refresh the page<br/>
+          <ion-button color="warning" size="small" (click)="getGymInfo()">refresh</ion-button>
+          
+        </ion-text>
+      </div>
+    </ion-row>
+
+    
+
+
+
+    <ion-row *ngIf="hasAGym">
+
+      <ion-col size="12" >
+
+        <div class="notifications-stepper">
+
+          <div [ngClass]="{'step': true, 'step-active': not.is_seen_notification ==0   }" *ngFor="let not of arrNotifications">
+            <div>
+              <div class="circle"><i class="fa fa-check"></i></div>
+            </div>
+            <div>
+              <div class="title">{{not.title_notification}} </div>
+              <div class="caption">{{not.date_notification | date:'medium'}}</div>
+              <p>{{not.core_notification}}</p>
+            </div>
+          </div>
+
+        </div>
+
+
+      </ion-col>
+      
+    </ion-row>
+
+
+
+  </ion-grid>
+
+</ion-content>

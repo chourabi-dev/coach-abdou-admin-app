@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Edit Exercice</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button fill="clear" (click)="closeModal()">
+        Close
+        <ion-icon slot="end" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="isLoading" color="warning"></ion-progress-bar>
+<ion-content>
+
+
+
+  <ion-grid>
+
+
+
+
+
+
+    <ion-row>
+
+      <ion-col size="12">
+
+
+        <!--step 1-->
+
+        <form [formGroup]="newex" (ngSubmit)="createEx()">
+          <input type="hidden" formControlName="id">
+
+
+
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">Title</ion-label>
+              <ion-input formControlName="title"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Please provide useful information about this exercice plan, this data will
+                be visible for your clients</ion-label>
+              <ion-textarea rows="5" formControlName="instructions"></ion-textarea>
+            </ion-item>
+
+
+            <ion-item>
+              <ion-label position="floating">Body section</ion-label>
+              <ion-input type="text" formControlName="bodysection"></ion-input>
+            </ion-item>
+
+
+
+            <ion-item>
+              <ion-label position="floating">Sets</ion-label>
+              <ion-input type="number" formControlName="sets"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Reps</ion-label>
+              <ion-input type="number" formControlName="reps"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Pause</ion-label>
+              <ion-input type="number" formControlName="pause"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Video link</ion-label>
+              <ion-input type="url" formControlName="videolink"></ion-input>
+            </ion-item>
+
+
+
+          </ion-list>
+          <div>
+            <ion-button color="primary" [disabled]="! newex.valid" type="submit">UPDATE</ion-button>
+          </div>
+
+        </form>
+
+        <!--end of step 1-->
+
+
+
+
+
+
+
+      </ion-col>
+
+    </ion-row>
+
+
+
+  </ion-grid>
+
+</ion-content>
